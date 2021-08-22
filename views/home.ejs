@@ -1,19 +1,29 @@
 <%-include('partials/header')%>
-
-<h1>Home</h1>
-
-<p><%=homeContent%></p>
-
-<%posts.forEach(post => {%>
-    <h1><%=post.title%></h1>
-    <p>
-        <%=post.content.substring(0, 101) + "..."%>
-        
+<div class="container-fluid" id="home">
+<div class="feather-parent">
+    <img class="feather"src="images/feather.svg"alt="">
+</div class="header">
+    <h1 class="text-dark">Home</h1>
+    <p class="text-dark">
+        <%=homeContent%>
     </p>
-    <a href="/posts/<%=post.slug%>/">Read More</a>
-<%});%>
+</div>
 
-
+<div class="container-fluid parent" id="">
+    <%posts.forEach(post=> {%>
+    <div class="container-fluid post" id="">
+        <h1 class="text-dark">
+            <%=post.title%>
+        </h1>
+        <p class="mb-0">
+            <%if(post.content.length > 100) {%>
+            <%=post.content.substring(0, 500) + "...." %>
+            <a href="/posts/<%=post.slug%>">Read More</a>
+            <%} else {%>
+            <%=post.content%>
+            <%} %>
+        </p>
+    </div>
+    <%});%>
+</div>
 <%- include('partials/footer')%>
-
-
