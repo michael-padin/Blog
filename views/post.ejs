@@ -1,8 +1,8 @@
 <%-include('partials/header')%>
-
-<div class="parent">
-    <h1><%=post.title%></h1>
-    <p ><%=post.content%></p>
+<div class="row-parent container-fluid">
+    <div class="post-parent">
+        <h1><%=post.title%></h1>
+        <p class="mb-0"><%=post.content%></p>
+    </div>
 </div>
-
 <%- include('partials/footer')%>

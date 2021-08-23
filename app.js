@@ -8,7 +8,7 @@ const Posts = require("./models/posts");
 require("dotenv").config();
 
 const homeStartingContent =
-  "Lacus vel facilisis volutpat est velit egestas dui id . Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
+  "Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Curabitur aliquet quam id dui posuere blandit. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Cras ultricies ligula sed magna dictum porta. ";
 const aboutContent =
   "Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.";
 const contactContent =
@@ -30,7 +30,11 @@ mongoose.connect(
 );
 
 app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(express.static("public"));
 
 app.get("/", function (req, res) {
@@ -47,15 +51,21 @@ app.get("/", function (req, res) {
 });
 
 app.get("/about", function (req, res) {
-  res.render("about", { aboutContent: aboutContent });
+  res.render("about", {
+    aboutContent: aboutContent,
+  });
 });
 
 app.get("/contact", function (req, res) {
-  res.render("contact", { contactContent: contactContent });
+  res.render("contact", {
+    contactContent: contactContent,
+  });
 });
 
 app.get("/compose", function (req, res) {
-  res.render("compose", { contactContent: contactContent });
+  res.render("compose", {
+    contactContent: contactContent,
+  });
 });
 
 app.post("/compose", function (req, res) {
@@ -76,17 +86,16 @@ app.post("/compose", function (req, res) {
 });
 
 app.get("/posts/:topic", (req, res) => {
-  let requestedTopic = req.params.topic.replace(/[_\s]+/g, "-").toLowerCase();
+  let requestedTopic = req.params.topic;
 
-  Posts.find({}, (err, foundPost) => {
-    foundPost.forEach((post) => {
-      let storedTitle = post.title.replace(/[_\s]+/g, "-").toLowerCase();
-      if (storedTitle === requestedTopic) {
-        res.render("post", { post: post });
-      } else {
-        return err
-      }
-    });
+  Posts.findById(requestedTopic, (err, foundPost) => {
+    if (foundPost) {
+      res.render("post", {
+        post: foundPost,
+      });
+    } else {
+      return "error";
+    }
   });
 });
 
